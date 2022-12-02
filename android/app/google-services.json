@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "282397299534",
+    "project_id": "rnapp-f713a",
+    "storage_bucket": "rnapp-f713a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282397299534:android:e093d6c2ebf7d653a9841f",
+        "android_client_info": {
+          "package_name": "com.rnfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282397299534-l0jn51p1q29orusq94jphsu2cdiei6ge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq_NjXCoci889bNfWNUOp5-s_pbFCJ-dc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282397299534-l0jn51p1q29orusq94jphsu2cdiei6ge.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
