@@ -5,6 +5,7 @@ import SignUpScreen from '../screens/SignUp';
 
 const Stack = createNativeStackNavigator();
 
+// eslint-disable-next-line no-undef
 export default Router = ({initialRouteName}) => (
   <Stack.Navigator
     initialRouteName={initialRouteName}
