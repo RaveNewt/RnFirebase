@@ -1,11 +1,11 @@
 import {View} from 'react-native';
 import React from 'react';
-import TextField from '../../../components/TextField';
-import Spacer from '../../../components/Spacer';
+import TextField from '../../components/TextField';
 import {ActivityIndicator, Button} from 'react-native-paper';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import validationSchema from '../SignIn/validationSchema';
+import Divider from '../../components/Divider';
 
 const Form = ({buttonLabel, initialValues, onSubmit, isLoading}) => {
   const form = useForm({
@@ -13,7 +13,6 @@ const Form = ({buttonLabel, initialValues, onSubmit, isLoading}) => {
     defaultValues: initialValues,
     resolver: yupResolver(validationSchema),
   });
-
   const {control, handleSubmit} = form;
 
   return (
@@ -26,14 +25,14 @@ const Form = ({buttonLabel, initialValues, onSubmit, isLoading}) => {
         keyboardType="email-address"
         control={control}
       />
-      <Spacer height={16} />
+      <Divider height={16} />
       <TextField
         name="password"
         label="Password"
         secureTextEntry
         control={control}
       />
-      <Spacer height={48} />
+      <Divider height={48} />
       {isLoading ? (
         <ActivityIndicator animating />
       ) : (

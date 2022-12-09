@@ -9,24 +9,38 @@ import {
   useTheme,
 } from 'react-native-paper';
 import Divider from '../../components/Divider';
+import fireDb from '../../Database';
+import Form from './form';
 
 const SignUpScreen = ({navigation}) => {
+  const initialValues = {
+    email: '',
+    password: '',
+  };
   const theme = useTheme();
 
   const [isLoading, setLoading] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onSignUp = () => {
+  const onSignUp = values => {
     setLoading(true);
     auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'HomeScreen'}],
-        });
+      .createUserWithEmailAndPassword(values.email, values.password)
+      .then(res => {
+        fireDb
+          .ref(`/users/${res.user.uid}`)
+          .set({
+            name: values.name,
+            email: res.user.email,
+          })
+          .then(() => {
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'HomeScreen'}],
+            });
+          })
+          .catch(error => {
+            Alert.alert(error.message);
+          });
       })
       .catch(error => {
         let message = 'Unknown Error';
@@ -41,7 +55,8 @@ const SignUpScreen = ({navigation}) => {
         setLoading(false);
         Alert.alert(message);
         console.error(error);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -50,31 +65,16 @@ const SignUpScreen = ({navigation}) => {
         <Appbar.Content title="Sign Up" />
       </Appbar.Header>
       <View style={{paddingHorizontal: 24, paddingTop: 32}}>
-        <TextInput
-          mode="outlined"
-          label="Email"
-          value={email}
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="email-address"
-          onChangeText={text => setEmail(text)}
+        <Form
+          buttonLabel="Sign Up"
+          initialValues={initialValues}
+          onSubmit={onSignUp}
+          isLoading={isLoading}
         />
         <Divider height={16} />
-        <TextInput
-          mode="outlined"
-          label="Password"
-          value={password}
-          secureTextEntry
-          onChangeText={text => setPassword(text)}
-        />
-        <Divider height={48} />
-        {isLoading ? (
-          <ActivityIndicator animating />
-        ) : (
-          <Button mode="contained-tonal" onPress={onSignUp}>
-            Sign Up
-          </Button>
-        )}
+        <Button mode="text" onPress={() => navigation.navigate('LoginScreen')}>
+          Login
+        </Button>
       </View>
     </View>
   );

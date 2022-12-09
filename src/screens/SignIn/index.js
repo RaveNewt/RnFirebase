@@ -1,26 +1,24 @@
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import {
-  ActivityIndicator,
-  Appbar,
-  Button,
-  TextInput,
-  useTheme,
-} from 'react-native-paper';
+import {ActivityIndicator, Appbar, Button, useTheme} from 'react-native-paper';
 import Divider from '../../components/Divider';
+import Form from './form';
 
 const LoginScreen = ({navigation}) => {
+  const initialValues = {
+    email: '',
+    password: '',
+  };
+
   const theme = useTheme();
+
   const [isLoading, setLoading] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onSignIn = () => {
+  const onSignIn = values => {
     setLoading(true);
     auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(values.email, values.password)
       .then(() => {
         navigation.replace('HomeScreen');
       })
@@ -34,10 +32,10 @@ const LoginScreen = ({navigation}) => {
           message = 'That email address is invalid!';
         }
 
-        setLoading(false);
         Alert.alert(message);
         console.error(error);
-      });
+      })
+      .finally(() => setLoading(false));
   };
   return (
     <View style={{flex: 1}}>
@@ -45,31 +43,12 @@ const LoginScreen = ({navigation}) => {
         <Appbar.Content title="Sign In" />
       </Appbar.Header>
       <View style={{paddingHorizontal: 24, paddingTop: 32}}>
-        <TextInput
-          mode="outlined"
-          label="Email"
-          value={email}
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="email-address"
-          onChangeText={text => setEmail(text)}
+        <Form
+          buttonLabel="Sign In"
+          initialValues={initialValues}
+          onSubmit={onSignIn}
+          isLoading={isLoading}
         />
-        <Divider height={16} />
-        <TextInput
-          mode="outlined"
-          label="Password"
-          value={password}
-          secureTextEntry
-          onChangeText={text => setPassword(text)}
-        />
-        <Divider height={48} />
-        {isLoading ? (
-          <ActivityIndicator animating />
-        ) : (
-          <Button mode="contained-tonal" onPress={onSignIn}>
-            Sign In
-          </Button>
-        )}
         <Divider height={16} />
         <Button mode="text" onPress={() => navigation.navigate('SignUpScreen')}>
           Sign Up
