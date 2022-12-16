@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar, Card} from 'react-native-paper';
 
-const ChatItem = ({chat}) => {
+const ChatItem = ({chat, onPress}) => {
   return (
     <Card.Title
       title={chat.username}
